@@ -27,6 +27,9 @@ public:
 	wypisz();
 	zmien();
 	wyszukaj();
+	usunWyszukane();
+	dodaj();
+
 
 };
 
