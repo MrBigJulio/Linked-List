@@ -22,6 +22,13 @@ int main()
 	o4->data1 = 444;
 	o4->data2 = 'd';
 	list->edit(2, *o4);
+	/*Object* o5 = new Object();
+	Object* o6 = new Object();
+	o5->data2 = 'e';
+	o6 = list->search(*o5);		!!!!! Error in g)
+	cout << o6->data1 << endl;
+	cout << o6->data2 << endl;*/
+	list->deleteLast();
 
 	
 };

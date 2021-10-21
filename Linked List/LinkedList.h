@@ -31,10 +31,14 @@ public:
 
 	~List();
 
-	void addToEnd(T);
-	void addToStart(T);
-	void print(int);
-	void edit(int, T);
+	void addToEnd(T);				//a)
+	void addToStart(T);				//b)
+	void print(int);				//e)
+	void edit(int, T);				//f)
+	T search(T);					//g) to fix
+	void deleteLast();				//c)
+	void deleteFirst();				//d)
+	void 
 };
 
 template <class T>
@@ -90,7 +94,7 @@ void List<T>::print(int index) {
 
 	while (i <= index) {
 		if (objectPtr == nullptr) {
-			cout << "ERROR" << endl;
+			cout << "Out of range!" << endl;
 			break;
 		}
 		else if (i != index) {
@@ -112,7 +116,7 @@ void List<T>::edit(int index, T newData) {
 
 	while (i <= index) {
 		if (objectPtr == nullptr) {
-			cout << "ERROR" << endl;
+			cout << "Out of range!" << endl;
 			break;
 		}
 		else if (i != index) {
@@ -125,4 +129,71 @@ void List<T>::edit(int index, T newData) {
 		i++;
 	};
 }
+
+template <class T>
+T List<T>::search(T data) {
+	Object* objectPtr = head;
+	bool finished = false;
+
+	while (finished != true) {
+		if (objectPtr == nullptr) {
+			//return NULL;				!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			cout << "ERROR" << endl;
+			finished = true;
+		}
+		else if (objectPtr->data1 == data.data1 || objectPtr->data2 == data.data2) {
+			return *objectPtr;
+			finished = true;
+		}
+		else
+		{
+			objectPtr = objectPtr->next;
+		}
+	}
+}
+
+template <class T>
+void List<T>::deleteLast() {
+	Object* objectToDelete = tail;
+	
+	if (objectToDelete == nullptr) {
+		cout << "Empty list!" << endl;
+	}
+	else if (objectToDelete->next == nullptr && objectToDelete->prev == nullptr) {
+		head = nullptr;
+		tail = nullptr;
+		delete objectToDelete;
+		size--;
+	}
+	else {
+		Object* objectPtr = objectToDelete->prev;
+		objectPtr->next = nullptr;
+		tail = objectPtr;
+		delete objectToDelete;
+		size--;
+	}
+}
+
+template <class T>
+void List<T>::deleteFirst() {
+	Object* objectToDelete = head;
+
+	if (objectToDelete == nullptr) {
+		cout << "Empty list!" << endl;
+	}
+	else if (objectToDelete->next == nullptr && objectToDelete->prev == nullptr) {
+		head = nullptr;
+		tail = nullptr;
+		delete objectToDelete;
+		size--;
+	}
+	else {
+		Object* objectPtr = objectToDelete->next;
+		objectPtr->prev = nullptr;
+		head = objectPtr;
+		delete objectToDelete;
+		size--;
+	}
+}
+
 #endif // !LINKEDLIST.H
