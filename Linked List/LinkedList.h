@@ -38,7 +38,6 @@ public:
 	T search(T);					//g) to fix
 	void deleteLast();				//c)
 	void deleteFirst();				//d)
-	void 
 };
 
 template <class T>
