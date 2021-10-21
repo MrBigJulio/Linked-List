@@ -1,5 +1,6 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
+using namespace std;
 
 class Object {
 public:
@@ -32,7 +33,8 @@ public:
 
 	void addToEnd(T);
 	void addToStart(T);
-	Object print(int, Object);
+	void print(int);
+	void edit(int, T);
 };
 
 template <class T>
@@ -47,7 +49,7 @@ void List<T>::addToEnd(T objectData) {
 
 	if (!head) {
 		head = newObject;
-		tail = newObject;		
+		tail = newObject;
 	}
 	else
 	{
@@ -55,7 +57,72 @@ void List<T>::addToEnd(T objectData) {
 		newObject->prev = objectPrt;
 		objectPrt->next = newObject;
 		tail = newObject;
+	};
+}
+
+template <class T>
+void List<T>::addToStart(T objectData) {
+	Object* newObject;
+	Object* objectPtr;
+
+	newObject = new Object;
+	newObject->data1 = objectData.data1;
+	newObject->data2 = objectData.data2;
+	size++;
+
+	if (!head) {
+		head = nullptr;
+		tail = nullptr;
+	}
+	else
+	{
+		objectPtr = head;
+		newObject->next = objectPtr;
+		objectPtr->prev = newObject;
+		head = newObject;
 	}
 }
 
+template <class T>
+void List<T>::print(int index) {
+	Object* objectPtr = head;
+	int i = 0;
+
+	while (i <= index) {
+		if (objectPtr == nullptr) {
+			cout << "ERROR" << endl;
+			break;
+		}
+		else if (i != index) {
+			objectPtr = objectPtr->next;
+		}
+		else {
+			cout << objectPtr->data1 << endl;
+			cout << objectPtr->data2 << endl;
+		}
+		i++;
+	};
+}
+
+template <class T>
+void List<T>::edit(int index, T newData) {
+	Object* objectPtr = head;
+
+	int i = 0;
+
+	while (i <= index) {
+		if (objectPtr == nullptr) {
+			cout << "ERROR" << endl;
+			break;
+		}
+		else if (i != index) {
+			objectPtr = objectPtr->next;
+		}
+		else {
+			objectPtr->data1 = newData.data1;
+			objectPtr->data2 = newData.data2;
+		}
+		i++;
+	};
+}
 #endif // !LINKEDLIST.H
