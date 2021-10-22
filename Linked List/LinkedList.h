@@ -29,8 +29,6 @@ public:
 		size = 0;
 	};
 
-	~List();
-
 	void addToEnd(T);				//a)
 	void addToStart(T);				//b)
 	void print(int);				//e)
@@ -38,14 +36,16 @@ public:
 	T search(T);					//g) to fix
 	void deleteLast();				//c)
 	void deleteFirst();				//d)
+	bool searchAndDelete(T);		//h)
+	~List();						//j)
+	void add(int, T);				//i)
 };
 
 template <class T>
 void List<T>::addToEnd(T objectData) {
-	Object* newObject;
+	Object* newObject = new Object();
 	Object* objectPrt;
 
-	newObject = new Object;
 	newObject->data1 = objectData.data1;
 	newObject->data2 = objectData.data2;
 	size++;
@@ -65,10 +65,9 @@ void List<T>::addToEnd(T objectData) {
 
 template <class T>
 void List<T>::addToStart(T objectData) {
-	Object* newObject;
+	Object* newObject = new Object();
 	Object* objectPtr;
-
-	newObject = new Object;
+;
 	newObject->data1 = objectData.data1;
 	newObject->data2 = objectData.data2;
 	size++;
@@ -136,7 +135,7 @@ T List<T>::search(T data) {
 
 	while (finished != true) {
 		if (objectPtr == nullptr) {
-			//return NULL;				!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			//return *objectPtr;				
 			cout << "ERROR" << endl;
 			finished = true;
 		}
@@ -154,6 +153,7 @@ T List<T>::search(T data) {
 template <class T>
 void List<T>::deleteLast() {
 	Object* objectToDelete = tail;
+	Object* objectPtr;
 	
 	if (objectToDelete == nullptr) {
 		cout << "Empty list!" << endl;
@@ -165,7 +165,7 @@ void List<T>::deleteLast() {
 		size--;
 	}
 	else {
-		Object* objectPtr = objectToDelete->prev;
+		objectPtr = objectToDelete->prev;
 		objectPtr->next = nullptr;
 		tail = objectPtr;
 		delete objectToDelete;
@@ -176,6 +176,7 @@ void List<T>::deleteLast() {
 template <class T>
 void List<T>::deleteFirst() {
 	Object* objectToDelete = head;
+	Object* objectPtr;
 
 	if (objectToDelete == nullptr) {
 		cout << "Empty list!" << endl;
@@ -187,7 +188,7 @@ void List<T>::deleteFirst() {
 		size--;
 	}
 	else {
-		Object* objectPtr = objectToDelete->next;
+		objectPtr = objectToDelete->next;
 		objectPtr->prev = nullptr;
 		head = objectPtr;
 		delete objectToDelete;
@@ -195,4 +196,90 @@ void List<T>::deleteFirst() {
 	}
 }
 
+template <class T>
+bool List<T>::searchAndDelete(T data) {
+	Object* objectToDelete = head;
+	Object* objectPtr;
+	bool finished = false;
+
+	while (finished != true) {
+		if (objectToDelete == nullptr) {
+			cout << "ERROR" << endl;
+			finished = true;
+			return false;	
+		}
+		else if (objectToDelete->data1 == data.data1 || objectToDelete->data2 == data.data2) {
+			if (objectToDelete->prev == nullptr && objectToDelete->next == nullptr) {
+				head = nullptr;
+				tail = nullptr;
+				delete objectToDelete;
+				size--;
+			}
+			else if (objectToDelete->prev == nullptr) {
+				objectPtr = objectToDelete->next;
+				objectPtr->prev = nullptr;
+				head = objectPtr;
+				delete objectToDelete;
+				size--;
+			}
+			else if (objectToDelete->next == nullptr) {
+				objectPtr = objectToDelete->prev;
+				objectPtr->next = nullptr;
+				tail = objectPtr;
+				delete objectToDelete;
+				size--;
+			}
+			else
+			{
+				objectPtr = objectToDelete->prev;
+				objectPtr->next = objectToDelete->next;
+				objectPtr = objectPtr->next;
+				objectPtr->prev = objectToDelete->prev;
+				delete objectToDelete;
+				size--;
+			}
+			finished = true;
+			return true;
+		}
+		else
+		{
+			objectToDelete = objectToDelete->next;
+		}
+	}
+}
+
+template <class T>
+List<T>::~List() {
+	Object* objectToDelete = head;
+	Object* objectPtr;
+
+	if (objectToDelete == nullptr) {
+		cout << "Empty list!" << endl;
+	}
+	else
+	{
+		while (objectToDelete != nullptr)
+		{
+			objectPtr = objectToDelete->next;
+			delete objectToDelete;
+			objectToDelete = objectPtr;
+			size--;
+		}
+		head = nullptr;
+		tail = nullptr;
+	}
+}
+
+template <class T>
+void List<T>::add(int index, T objectData) {
+	Object* newObject = new Object();
+	Object* objectPtr;
+
+	newObject->data1 = objectData.data1;
+	newObject->data2 = objectData.data2;
+
+	for (int i = 0; i <= index; i++) {
+
+	}
+}
 #endif // !LINKEDLIST.H
