@@ -18,20 +18,22 @@ int main()
 	o3->data2 = 'c';
 	list->addToStart(*o3);
 	list->print(2);
-	/*Object* o4 = new Object();
+	Object* o4 = new Object();
 	o4->data1 = 444;
 	o4->data2 = 'd';
 	list->edit(2, *o4);
-	/*Object* o5 = new Object();
+	Object* o5 = new Object();
 	Object* o6 = new Object();
 	o5->data2 = 'e';
-	*o6 = list->search(*o5);		//!!!!! Error in g)
-	cout << o6->data1 << endl;
-	cout << o6->data2 << endl;*/
-	//list->deleteLast();
+	list->search(*o5);		
+	list->deleteLast();
 	Object* o7 = new Object();
-	o7->data1 = 222;
-	//list->searchAndDelete(*o7);
+	o7->data1 = 444;
+	o7->data2 = 'e';
+	list->searchAndDelete(*o7);
 	list->~List();
+	list->add(3, *o7);
+	list->info();
+	
 	
 };

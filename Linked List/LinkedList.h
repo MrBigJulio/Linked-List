@@ -33,12 +33,14 @@ public:
 	void addToStart(T);				//b)
 	void print(int);				//e)
 	void edit(int, T);				//f)
-	T search(T);					//g) to fix
+	void search(T);					//g) to fix
 	void deleteLast();				//c)
 	void deleteFirst();				//d)
 	bool searchAndDelete(T);		//h)
 	~List();						//j)
 	void add(int, T);				//i)
+	void info();					//k)
+	
 };
 
 template <class T>
@@ -99,8 +101,7 @@ void List<T>::print(int index) {
 			objectPtr = objectPtr->next;
 		}
 		else {
-			cout << objectPtr->data1 << endl;
-			cout << objectPtr->data2 << endl;
+			cout << objectPtr->data1 << " " << objectPtr->data2 << endl;
 		}
 		i++;
 	};
@@ -129,19 +130,20 @@ void List<T>::edit(int index, T newData) {
 }
 
 template <class T>
-T List<T>::search(T data) {
+void List<T>::search(T data) {
 	Object* objectPtr = head;
 	bool finished = false;
 
 	while (finished != true) {
 		if (objectPtr == nullptr) {
-			//return *objectPtr;				
-			cout << "ERROR" << endl;
+			cout << "NULL" << endl;
 			finished = true;
+			//return *objectPtr;			//////////////////////////////////////////////////////////////
 		}
 		else if (objectPtr->data1 == data.data1 || objectPtr->data2 == data.data2) {
-			return *objectPtr;
+			cout << objectPtr->data1 << " " << objectPtr->data2;
 			finished = true;
+			//return *objectPtr;
 		}
 		else
 		{
@@ -275,11 +277,52 @@ void List<T>::add(int index, T objectData) {
 	Object* newObject = new Object();
 	Object* objectPtr;
 
+	int i = 0;
+
 	newObject->data1 = objectData.data1;
 	newObject->data2 = objectData.data2;
+	size++;
 
-	for (int i = 0; i <= index; i++) {
-
+	if (!head) {
+		head = newObject;
+		tail = newObject;
+		cout << "Empty list! Add on position " << i << endl;;
 	}
+	else {
+		objectPtr = head;
+		while (i <= index) {
+			if (i == index) {
+				if (objectPtr->prev == nullptr) {
+					newObject->next = objectPtr;
+					objectPtr->prev = newObject;
+					head = newObject;
+				}
+				else
+				{
+					newObject->next = objectPtr;
+					newObject->prev = objectPtr->prev;
+					objectPtr->prev = newObject;
+					newObject->prev->next = newObject;
+				}
+			}
+			else if (objectPtr->next == nullptr) {
+				objectPtr->next = newObject;
+				newObject->prev = objectPtr;
+				tail = newObject;
+				cout << "Out of range! Add on position " << i + 1 << endl;
+				break;
+			}
+			else {
+				objectPtr = objectPtr->next;
+			}
+			i++;
+		}
+	}
+}
+
+template <class T>
+void List<T>::info() {
+	cout << "Number of records in list: " << size << endl;
+	cout << "Position of list in memory: " << this << endl;
 }
 #endif // !LINKEDLIST.H
