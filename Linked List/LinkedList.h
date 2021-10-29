@@ -75,8 +75,8 @@ void List<T>::addToStart(T objectData) {
 	size++;
 
 	if (!head) {
-		head = nullptr;
-		tail = nullptr;
+		head = newObject;
+		tail = newObject;
 	}
 	else
 	{
@@ -138,7 +138,7 @@ void List<T>::search(T data) {
 		if (objectPtr == nullptr) {
 			cout << "NULL" << endl;
 			finished = true;
-			//return *objectPtr;			//////////////////////////////////////////////////////////////
+			//return NULL;			//////////////////////////////////////////////////////////////
 		}
 		else if (objectPtr->data1 == data.data1 || objectPtr->data2 == data.data2) {
 			cout << objectPtr->data1 << " " << objectPtr->data2;
@@ -235,8 +235,7 @@ bool List<T>::searchAndDelete(T data) {
 			{
 				objectPtr = objectToDelete->prev;
 				objectPtr->next = objectToDelete->next;
-				objectPtr = objectPtr->next;
-				objectPtr->prev = objectToDelete->prev;
+				objectPtr->next->prev = objectToDelete->prev;
 				delete objectToDelete;
 				size--;
 			}
